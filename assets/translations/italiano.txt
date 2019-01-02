@@ -1,5 +1,5 @@
 Non è un bug, è una feature
-L'ho rotto apposta per fare un test
+Non è rotto, è solo un test
 Non posso prometterti niente, al momento ho altre priorità
 Non posso testare tutto
 Non ho trovato nel progetto nessun altro esempio da copiare
@@ -29,7 +29,7 @@ Dovremmo riscrivere tutto da zero, ma non ne abbiamo il tempo
 I nostri manager ci hanno detto di non perdere tempo a scrivere unit test
 Mi hanno allocato su più progetti e non riesco a seguirli tutti come Dio comanda
 Nessuno mi ha mai chiesto un parere su quanto ci vuole per finire il lavoro
-Nessuno si è mai lamentato prima
+Nessuno si è mai lamentato prima d'ora
 Nessuno mi ha detto come farlo, quindi ho deciso IO di farlo così
 Ah, quello? È solo un fix temporaneo
 Ah, scusa, mi avevi detto che NON doveva funzionare così?

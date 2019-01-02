@@ -1,0 +1,20 @@
+C'est étrange ...
+Ça n'a jamais fait ça avant.
+Ça marchait hier.
+Comment est-ce possible ?
+Cela doit être un problème hardware.
+Qu'est ce que tu as mal saisi dedans pour le faire planter ?
+Il y a quelque chose de pourri dans tes données.
+Je n'ai pas touché ce module depuis des semaines !
+Tu dois avoir la mauvaise version.
+C'est juste une coïncidence malheureuse.
+Je ne peux pas tout tester !
+CECI ne peux pas être la source de CELA.
+Ça marche, mais ça n'a pas été testé.
+Quelqu'un a du changer mon code.
+As tu vérifié que tu n'avais pas de virus sur ton système ?
+Même si ça ne marche pas, tu trouves ça comment ?
+Tu ne peux pas utiliser cette version sur ton système.
+Mais pourquoi tu veux le faire de cette façon ?
+Où tu étais quand le programme est parti en morceaux ?
+Ça marche sur ma machine

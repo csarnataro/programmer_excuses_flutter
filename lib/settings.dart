@@ -12,27 +12,28 @@ class Settings extends StatefulWidget {
 
 class SettingsState extends State<Settings> {
   String _selectedLang;
-  List<DropdownMenuItem<String>> _availableLanguagesItems;
 
   @override
   void initState() {
     _selectedLang = widget.selectedLang; // passed by the main screen
-    
-    var availableLanguages = await _loadAvailableLanguages();
-    _availableLanguagesItems = availableLanguages.map((language) => DropdownMenuItem<String>(
-          value: language,
-          child: Text(_capitalize(language))
-        ));
     super.initState();
   }
 
-    /// Assumes the given path is a text-file-asset.
-  Future<List<String>> _loadAvailableLanguages() async {
-    String languages = await DefaultAssetBundle.of(context)
-      .loadString('assets/translations/available_languages.txt');
-    return languages.split('\n');
+  List<DropdownMenuItem<String>> _getAvailableLanguagesItems(data) {
+    print('In _getAvailableLanguagesItems: $data');
+    return (data as List<String>).map(
+      (value) => 
+        DropdownMenuItem<String>(value: value, child: Text(_capitalize(value)))
+    ).toList();
   }
 
+  /// Assumes the given path is a text-file-asset.
+  Future<List<String>> _loadAvailableLanguages() async {
+    String languages = await DefaultAssetBundle.of(context)
+        .loadString('assets/translations/available_languages.txt');
+    print('Languages: $languages');
+    return languages.split('\n');
+  }
 
   /// Capitalizes the `input` string.
   String _capitalize(String input) {
@@ -56,15 +57,29 @@ class SettingsState extends State<Settings> {
             ),
             title: const Text('Settings')),
         body: Center(
-            child: DropdownButton<String>(
-                value: _selectedLang,
-                hint: new Text("Language"),
-                items: _availableLanguagesItems,
-                onChanged: (newValue) {
-                  setState(() {
-                    _selectedLang = newValue;
-                  });
-                  PrefsHelper.storeLang(newValue);
+            child: FutureBuilder(
+                future: _loadAvailableLanguages(),
+                builder: (context, snapshot) {
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.none:
+                    case ConnectionState.waiting:
+                      return Text('loading...');
+                    default:
+                      if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else {
+                        return DropdownButton<String>(
+                            value: _selectedLang,
+                            hint: new Text("Lang"),
+                            items: _getAvailableLanguagesItems(snapshot.data),
+                            onChanged: (newValue) {
+                              setState(() {
+                                _selectedLang = newValue;
+                              });
+                              PrefsHelper.storeLang(newValue);
+                            });
+                      }
+                  }
                 })));
   }
 }
