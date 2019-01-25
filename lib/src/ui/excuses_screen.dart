@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import '../blocs/excuses_bloc.dart';
 import '../blocs/excuses_provider.dart';
 
+/// Please read https://iirokrankka.com/2018/12/11/splitting-widgets-to-methods-performance-antipattern/
+/// for an explanation why I have replaced some functions with `StatelessWidget`s
+
 // this will be implemented as a PageView
 class ExcusesScreen extends StatefulWidget {
   @override
@@ -20,6 +23,8 @@ class ExcusesScreenState extends State<ExcusesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _excusesBloc = ExcusesProvider.of(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Programmer excuses'),
@@ -32,34 +37,37 @@ class ExcusesScreenState extends State<ExcusesScreen> {
           ),
         ],
       ),
-      body: _buildExcuse(),
+      body: _ExcusesContainer(_excusesBloc),
     );
   }
+}
 
-  Widget _buildExcuse() {
-    _excusesBloc = ExcusesProvider.of(context);
+class _ExcusesPageView extends StatelessWidget {
+  final List<String> excuses;
+  const _ExcusesPageView(this.excuses);
 
-    return Center(
-      child: StreamBuilder(
-        stream: _excusesBloc.excuses,
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.none:
-            case ConnectionState.waiting:
-              return Text('loading...');
-            default:
-              if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error}');
-              } else {
-                return _createPageView(context, snapshot.data);
-              }
-          }
-        },
-      ),
+  @override
+  Widget build(BuildContext context) {
+    return PageView.builder(
+      itemCount: excuses.length,
+      itemBuilder: (BuildContext context, int index) {
+        return Padding(
+          padding: EdgeInsets.all(10.0),
+          child: Center(child: _ExcuseText(excuses, index)),
+        );
+      },
     );
   }
+}
 
-  Widget _getText(excuses, index) {
+class _ExcuseText extends StatelessWidget {
+  final List<String> excuses;
+  final int index;
+
+  _ExcuseText(this.excuses, this.index);
+
+  @override
+  Widget build(BuildContext context) {
     if (index == 0) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -93,16 +101,34 @@ class ExcusesScreenState extends State<ExcusesScreen> {
       );
     }
   }
+}
 
-  Widget _createPageView(BuildContext context, List<String> excuses) {
-    return PageView.builder(
-      itemCount: excuses.length,
-      itemBuilder: (BuildContext context, int index) {
-        return Padding(
-          padding: EdgeInsets.all(10.0),
-          child: Center(child: _getText(excuses, index)),
-        );
-      },
+class _ExcusesContainer extends StatelessWidget {
+  final ExcusesBloc bloc;
+
+  const _ExcusesContainer(this.bloc);
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Center(
+      child: StreamBuilder(
+        stream: bloc.excuses,
+        builder: (context, snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+            case ConnectionState.waiting:
+              return Text('loading...');
+            default:
+              if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              } else {
+                return _ExcusesPageView(snapshot.data);
+              }
+          }
+        },
+      ),
     );
   }
 }
+

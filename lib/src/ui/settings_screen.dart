@@ -9,14 +9,10 @@ class SettingsScreen extends StatefulWidget {
   SettingsScreenState createState() => SettingsScreenState();
 }
 
+/// Since I'm using a single BLoC for 2 screen, the disposal of the
+/// streams in the bloc are in charge of the main screen (i.e. ExcusesScreen)
 class SettingsScreenState extends State<SettingsScreen> {
   ExcusesBloc _excusesBloc;
-
-  // @override
-  // void dispose() {
-  //   _excusesBloc.dispose();
-  //   super.dispose();
-  // }
 
   List<DropdownMenuItem<String>> _getAvailableLanguagesItems(data) {
     return (data as List<String>)
