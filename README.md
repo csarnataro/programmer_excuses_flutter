@@ -7,14 +7,19 @@ Outputs a random programming excuse in the selected language.
 
 Currently supporting English, French and Italian.
 
+## Getting Started
+
+For help getting started with Flutter, view Flutter's online
+[documentation](https://flutter.io/).
+
 ## Contributing
-If you find any issue, just use the issue tracker available here:
+If you find any issue, just create a new issue here:
 https://github.com/csarnataro/programmer_excuses_flutter/issues/new
 
 If you want to add new translations:
 * Please use this file as a template:
 [https://github.com/csarnataro/programmer_excuses_flutter/blob/master/translation_template.txt](https://github.com/csarnataro/programmer_excuses_flutter/blob/master/translation_template.txt)
-* if you are a developer, jsut fork this repository and open a PR (you should
+* If you are a developer, just fork this repository and open a PR (you should
 know what this means) with:
   * a new txt file with your translations (one per line) in folder
     `assets/translations`
@@ -22,7 +27,7 @@ know what this means) with:
     E.g. `español.txt` (special character are supported)
   * add a new line in file `assets/translations/available_languages.txt`
     with the language you want to add (lowercase)
-* if you are not a developer
+* If you are not a developer
   * create a new 'Issue' clicking at:
 https://github.com/csarnataro/programmer_excuses_flutter/issues/new 
   * specify the language in the title
