@@ -16,9 +16,7 @@ class LanguageInfo {
 /// Business Logic Component for managing both the programmer excuses logic
 /// and the Language selection. It could be splitted in 2
 class ExcusesBloc {
-  // TODO: read available languages from file
-  final List<String> _availableLanguages =
-      ['english', 'français', 'italiano'].toList();
+  List<String> _availableLanguages;
   String _currentLanguage;
   List<String> _currentExcuses;
 
@@ -66,18 +64,25 @@ class ExcusesBloc {
 
   /// Initializes the BLoC. Detects if a language was previously stored
   /// in the shared Preferences (if not, english is used), then
-  /// loads the excuses for that language and send everything through the 
+  /// loads the excuses for that language and send everything through the
   /// stream.
-  void _init() {
-    PrefsHelper.getLang().then((storedLang) {
-      _currentLanguage = storedLang ?? 'english';
-      _languageInfoController.sink
-          .add(LanguageInfo(_currentLanguage, _availableLanguages));
-      _getExcuses(_currentLanguage).then((excuses) {
-        _currentExcuses = excuses;
-        _excusesStreamController.sink.add(_currentExcuses);
-      });
-    });
+  void _init() async {
+    // Loading available languages
+    _availableLanguages = await _loadAvailableLanguages();
+
+    /// Loading stored language (if available)
+    String storedLang = await PrefsHelper.getLang();
+    _currentLanguage = storedLang ?? 'english';
+    
+    // putting the current language and the available language into the sink
+    // for later use in the settings screen
+    _languageInfoController.sink
+        .add(LanguageInfo(_currentLanguage, _availableLanguages));
+
+    // Loading the excuses in the current language and putting them 
+    // into the sink for creating the main screen
+    _currentExcuses = await _getExcuses(_currentLanguage);
+    _excusesStreamController.sink.add(_currentExcuses);
   }
 
   Future<List<String>> _getExcuses(String selectedLanguage) async {
@@ -85,5 +90,12 @@ class ExcusesBloc {
     List<String> lines = fileContent.split('\n');
     lines.shuffle();
     return lines.where((line) => line.isNotEmpty).toList();
+  }
+
+  /// Assumes the given path is a text-file-asset.
+  Future<List<String>> _loadAvailableLanguages() async {
+    String languages = await rootBundle
+        .loadString('assets/translations/available_languages.txt');
+    return languages.split('\n').where((line) => line.isNotEmpty).toList();
   }
 }

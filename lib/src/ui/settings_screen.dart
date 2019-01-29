@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-
-import '../blocs/excuses_provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../blocs/excuses_bloc.dart';
+import '../blocs/excuses_provider.dart';
 
 class SettingsScreen extends StatefulWidget {
-
   @override
   SettingsScreenState createState() => SettingsScreenState();
 }
@@ -21,6 +20,13 @@ class SettingsScreenState extends State<SettingsScreen> {
         .toList();
   }
 
+  void _launchGitHubURL() async {
+    const url = 'https://github.com/csarnataro/programmer_excuses_flutter';
+    if (await canLaunch(url)) {
+      await launch(url);
+    }
+  }
+
   /// Capitalizes the `input` string.
   String _capitalize(String input) {
     if (input == null) {
@@ -35,7 +41,6 @@ class SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     _excusesBloc = ExcusesProvider.of(context);
-
     return Scaffold(
       appBar: new AppBar(
         leading: new IconButton(
@@ -58,25 +63,50 @@ class SettingsScreenState extends State<SettingsScreen> {
                 if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else {
-                  return Row(
+                  return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Padding(
-                        padding: EdgeInsets.only(right: 20),
-                        child: Text(
-                          'Language: ',
-                          style: TextStyle(fontSize: 16),
+                      Expanded(
+                        flex: 1,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.only(right: 20),
+                              child: Text(
+                                'Choose you preferred language',
+                                style: TextStyle(fontSize: 16),
+                              ),
+                            ),
+                            DropdownButton<String>(
+                              value: snapshot.data.language,
+                              hint: new Text("Language"),
+                              items: _getAvailableLanguagesItems(
+                                  snapshot.data.availableLanguages),
+                              onChanged: (newValue) {
+                                _excusesBloc.languageSwitcher.add(newValue);
+                              },
+                            ),
+                          ],
                         ),
                       ),
-                      DropdownButton<String>(
-                        value: snapshot.data.language,
-                        hint: new Text("Language"),
-                        items: _getAvailableLanguagesItems(
-                            snapshot.data.availableLanguages),
-                        onChanged: (newValue) {
-                          _excusesBloc.languageSwitcher.add(newValue);
-                        },
+                      Expanded(
+                        flex: 0,
+                        child: Container(
+                          padding: EdgeInsets.only(bottom: 20),
+                          child: InkWell(
+                            child: Text(
+                              'Source code on GitHub',
+                              style: TextStyle(
+                                color: Colors.blue,
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
+                            onTap: _launchGitHubURL,
+                          ),
+                        ),
                       )
                     ],
                   );
