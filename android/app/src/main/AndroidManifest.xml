@@ -1,10 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.programmerexcuses">
+    package="io.github.csarnataro.programmerexcuses">
 
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-        android:name="io.github.csarnataro.ProgrammerExcuses"
+        android:name="io.flutter.app.FlutterApplication"
         android:label="Programmer Excuses"
         android:icon="@mipmap/ic_launcher">
         <activity

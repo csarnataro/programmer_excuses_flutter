@@ -1,4 +1,4 @@
-package com.example.programmerexcuses;
+package io.github.csarnataro.programmerexcuses;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;
