@@ -13,7 +13,7 @@ For help getting started with Flutter, view Flutter's online
 [documentation](https://flutter.io/).
 
 ## Contributing
-If you find any issue, just create a new issue here:
+If you find any issues, just file a new issue here:
 https://github.com/csarnataro/programmer_excuses_flutter/issues/new
 
 If you want to add new translations:
@@ -36,8 +36,8 @@ https://github.com/csarnataro/programmer_excuses_flutter/issues/new
 If you want, you will be listed as a contributor to this project.
 
 ## Inspiration
-* Inspired by [programmingexcuses.com](http://programmingexcuses.com/) - Excuses For Lazy Coders
-* Initial english translations from [programmingexcuses.sh](https://github.com/pixelastic/programmingexcuses.sh)
+* Heavily inspired by [programmingexcuses.com  - Excuses For Lazy Coders](http://programmingexcuses.com/)
+* Initial english excuses from [programmingexcuses.sh](https://github.com/pixelastic/programmingexcuses.sh)
 
 ## Translations
 * [English translations](https://raw.githubusercontent.com/pixelastic/programmingexcuses.sh/master/programmingexcuses) from [Tim Carry](http://www.pixelastic.com/)
