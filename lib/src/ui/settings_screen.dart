@@ -14,9 +14,9 @@ class SettingsScreenState extends State<SettingsScreen> {
   ExcusesBloc _excusesBloc;
 
   List<DropdownMenuItem<String>> _getAvailableLanguagesItems(data) {
-    return (data as List<String>)
-        .map((value) => DropdownMenuItem<String>(
-            value: value, child: Text(_capitalize(value))))
+    return (data as List<LanguageDescription>)
+        .map((lang) =>
+            DropdownMenuItem<String>(value: lang.value, child: Text(lang.label)))
         .toList();
   }
 
@@ -25,17 +25,6 @@ class SettingsScreenState extends State<SettingsScreen> {
     if (await canLaunch(url)) {
       await launch(url);
     }
-  }
-
-  /// Capitalizes the `input` string.
-  String _capitalize(String input) {
-    if (input == null) {
-      throw new ArgumentError("string: $input");
-    }
-    if (input.length == 0) {
-      return input;
-    }
-    return input[0].toUpperCase() + input.substring(1);
   }
 
   @override
@@ -81,7 +70,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                               ),
                             ),
                             DropdownButton<String>(
-                              value: snapshot.data.language,
+                              value: snapshot.data.language.value,
                               hint: new Text("Language"),
                               items: _getAvailableLanguagesItems(
                                   snapshot.data.availableLanguages),
